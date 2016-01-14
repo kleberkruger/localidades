@@ -14,23 +14,48 @@
  * You should have received a copy of the GNU General Public License
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
-package br.ufms.localidades.app;
+package br.ufms.localidades.model;
 
-import java.util.HashMap;
-import java.util.Map;
-import javax.ws.rs.core.Application;
+import com.thoughtworks.xstream.annotations.XStreamAlias;
+import java.io.Serializable;
 
 /**
  *
  * @author kleberkruger
  */
-public class LocalidadesApp extends Application {
+@XStreamAlias("macrorregiao")
+public class Macrorregiao implements Serializable {
+    
+    private static final long serialVersionUID = 1L;
+    
+    private Integer id;
+    private String nome;
 
-    @Override
-    public Map<String, Object> getProperties() {
-        Map<String, Object> properties = new HashMap<>();
-        // Configura o pacote para fazer scan das classes com anotações REST.
-        properties.put("jersey.config.server.provider.packages", "br.ufms.localidades");
-        return properties;
+    /**
+     * @return the id
+     */
+    public Integer getId() {
+        return id;
+    }
+
+    /**
+     * @param id the id to set
+     */
+    public void setId(Integer id) {
+        this.id = id;
+    }
+
+    /**
+     * @return the nome
+     */
+    public String getNome() {
+        return nome;
+    }
+
+    /**
+     * @param nome the nome to set
+     */
+    public void setNome(String nome) {
+        this.nome = nome;
     }
 }

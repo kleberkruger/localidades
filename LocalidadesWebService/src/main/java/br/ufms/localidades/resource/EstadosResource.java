@@ -16,9 +16,12 @@
  */
 package br.ufms.localidades.resource;
 
+import br.ufms.localidades.model.Estado;
+import br.ufms.localidades.service.EstadoService;
 import javax.ws.rs.Consumes;
 import javax.ws.rs.GET;
 import javax.ws.rs.Path;
+import javax.ws.rs.PathParam;
 import javax.ws.rs.Produces;
 import javax.ws.rs.core.MediaType;
 
@@ -30,17 +33,15 @@ import javax.ws.rs.core.MediaType;
 @Produces(MediaType.APPLICATION_JSON + ";charset=utf-8")
 @Consumes(MediaType.APPLICATION_JSON + ";charset=utf-8")
 public class EstadosResource {
-    
+
     @GET
-    @Consumes(MediaType.TEXT_HTML)
-    @Produces(MediaType.TEXT_HTML + ";charset=utf-8")
-    public String helloHTML() {
-        return "<b>Estados HTML!</b>";
+    public Estado[] get() {
+        return EstadoService.getInstance().getEstados();
     }
 
     @GET
-    @Produces(MediaType.TEXT_PLAIN)
-    public String helloTextPlain() {
-        return "Estados Texto!";
+    @Path("{uf}")
+    public Estado get(@PathParam("uf") String uf) {
+        return EstadoService.getInstance().getEstado(uf);
     }
 }

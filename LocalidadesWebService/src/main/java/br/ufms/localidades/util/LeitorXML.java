@@ -14,35 +14,31 @@
  * You should have received a copy of the GNU General Public License
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
-package br.ufms.localidades.resource;
+package br.ufms.localidades.util;
 
+
+import br.ufms.localidades.model.Macrorregiao;
+import br.ufms.localidades.model.Microrregiao;
 import br.ufms.localidades.model.Municipio;
-import br.ufms.localidades.service.MunicipioService;
+import com.thoughtworks.xstream.XStream;
+import com.thoughtworks.xstream.io.xml.DomDriver;
+import java.io.InputStream;
 import java.util.List;
-import javax.ws.rs.Consumes;
-import javax.ws.rs.GET;
-import javax.ws.rs.Path;
-import javax.ws.rs.PathParam;
-import javax.ws.rs.Produces;
-import javax.ws.rs.core.MediaType;
 
 /**
  *
  * @author kleberkruger
  */
-@Path("/municipios")
-@Produces(MediaType.APPLICATION_JSON + ";charset=utf-8")
-@Consumes(MediaType.APPLICATION_JSON + ";charset=utf-8")
-public class MunicipiosResource {
+public class LeitorXML {
 
-    @GET
-    public List<Municipio> get() {
-        return MunicipioService.getInstance().getMunicipios();
+    public List<Municipio> carregar(InputStream inputStream) {
+        XStream stream = new XStream(new DomDriver());
+        stream.autodetectAnnotations(true);
+        stream.alias("listaMunicipio", List.class);
+        stream.alias("municipio", Municipio.class);
+        stream.alias("microrregiao", Microrregiao.class);
+        stream.alias("macrorregiao", Macrorregiao.class);
+        return (List<Municipio>) stream.fromXML(inputStream);
     }
 
-    @GET
-    @Path("{uf}")
-    public List<Municipio> get(@PathParam("municipio") String municipio) {
-        return MunicipioService.getInstance().getMunicipios(municipio);
-    }
 }
