@@ -21,6 +21,7 @@ import java.time.LocalTime;
 import java.time.ZoneId;
 import java.time.ZonedDateTime;
 import java.util.concurrent.ScheduledExecutorService;
+import java.util.concurrent.ScheduledFuture;
 import java.util.concurrent.ScheduledThreadPoolExecutor;
 import java.util.concurrent.TimeUnit;
 
@@ -45,29 +46,29 @@ public class AgendadorTarefas {
     }
 
     /**
-     * 
+     *
      * @param tarefa
-     * @param horario 
+     * @param horario
      */
     public void agendar(Runnable tarefa, LocalTime horario) {
         agendar(tarefa, horario, zona);
     }
 
     /**
-     * 
+     *
      * @param tarefa
      * @param horario
-     * @param diariamente 
+     * @param diariamente
      */
     public void agendar(Runnable tarefa, LocalTime horario, boolean diariamente) {
         agendar(tarefa, horario, zona, diariamente);
     }
 
     /**
-     * 
+     *
      * @param tarefa
      * @param horario
-     * @param zona 
+     * @param zona
      */
     public void agendar(Runnable tarefa, LocalTime horario, ZoneId zona) {
         scheduler.scheduleAtFixedRate(tarefa, getSegundosRestantes(horario, zona),
@@ -75,11 +76,11 @@ public class AgendadorTarefas {
     }
 
     /**
-     * 
+     *
      * @param tarefa
      * @param horario
      * @param zona
-     * @param diariamente 
+     * @param diariamente
      */
     public void agendar(Runnable tarefa, LocalTime horario, ZoneId zona,
             boolean diariamente) {
@@ -114,5 +115,20 @@ public class AgendadorTarefas {
         }
 
         return Duration.between(horarioAtual, proximoHorario).getSeconds();
+    }
+
+    /**
+     *
+     * @param tarefa
+     * @param horario
+     * @param zona
+     */
+    public void desagendar(Runnable tarefa, LocalTime horario, ZoneId zona) {
+        // TODO: Implementar esta funcionalidade. Use o método cancel.
+        throw new UnsupportedOperationException("Funcionalidade ainda não implementada");
+
+//        ScheduledFuture<?> future = scheduler.scheduleAtFixedRate(tarefa, 1,
+//                QTD_SEGUNDOS_NO_DIA, TimeUnit.SECONDS);
+//        future.cancel(false);
     }
 }

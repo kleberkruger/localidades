@@ -25,14 +25,8 @@ import java.util.List;
  */
 public class MunicipioService {
 
-    private static final MunicipioService INSTANCE = new MunicipioService();
-
-    public static MunicipioService getInstance() {
-        return INSTANCE;
-    }
-
     private MunicipioService() {
-
+        
     }
 
     /**
@@ -66,5 +60,19 @@ public class MunicipioService {
      */
     public List<Municipio> getMunicipios() {
         return null;
+    }
+    
+    /**
+     * Atributo estático da classe MunicipioService que armazona a referência para 
+     * a única instância desta classe.
+     */
+    private static final MunicipioService INSTANCE = new MunicipioService();
+
+    /**
+     * Retorna a única instância desta classe (Singleton).
+     * @return a instância da classe MunicipioService
+     */
+    public static MunicipioService getInstance() {
+        return INSTANCE;
     }
 }

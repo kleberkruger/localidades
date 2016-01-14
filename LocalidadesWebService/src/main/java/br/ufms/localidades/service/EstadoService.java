@@ -21,18 +21,14 @@ import br.ufms.localidades.model.UF;
 import br.ufms.localidades.util.LeitorXML;
 import com.google.gson.Gson;
 import java.io.BufferedReader;
-import java.io.BufferedWriter;
 import java.io.IOException;
 import java.io.InputStreamReader;
 import java.net.HttpURLConnection;
 import java.net.MalformedURLException;
 import java.net.URISyntaxException;
 import java.net.URL;
-import java.nio.charset.Charset;
-import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
-import java.nio.file.StandardOpenOption;
 
 /**
  *
@@ -41,12 +37,6 @@ import java.nio.file.StandardOpenOption;
 public class EstadoService {
 
     private static final int TENTATIVAS_CONEXAO = 3;
-
-    private static final EstadoService INSTANCE = new EstadoService();
-
-    public static EstadoService getInstance() {
-        return INSTANCE;
-    }
 
     private final Estado[] estadosWeb;
     private Estado[] estados;
@@ -74,7 +64,21 @@ public class EstadoService {
      */
     private void inicializar() {
         carregarEstadosDoArquivo();
-        atualizarMunicipios();
+        atualizarDados();
+        
+        agendarAtualizacoesDiarias();
+    }
+    
+    private void agendarAtualizacoesDiarias() {
+        try {
+            URL url = getClass().getResource("/xml/atualizacoes.xml");
+            Path path = url != null ? Paths.get(url.toURI()) : null;
+            
+            new AtualizacaoService().carregar(path);
+            
+        } catch (URISyntaxException ex) {
+            System.err.println(ex.getMessage());
+        }
     }
 
     /*
@@ -134,12 +138,13 @@ public class EstadoService {
 
     /**
      * Consulta o banco de dados do governo e atualiza os municípios de todos os
-     * estados. Caso o servidor esteja offline, agenda a consulta para 30
-     * minutos depois.
+     * estados. Caso o servidor esteja offline, agenda a consulta para daqui 
+     * 30 minutos.
      */
-    public void atualizarMunicipios() {
+    public void atualizarDados() {
         new Thread(() -> {
             try {
+                System.out.println("Consultando webservice para atualizar os dados...");
                 carregarEstadosDoServidor();
                 estados = estadosWeb;
                 // Atualizar o arquivo json local
@@ -157,7 +162,7 @@ public class EstadoService {
      * @return o estado
      */
     public Estado getEstado(String uf) {
-        for (Estado e: estados) {
+        for (Estado e : estados) {
             if (e.getUf().equalsIgnoreCase(uf)) {
                 return e;
             }
@@ -183,5 +188,23 @@ public class EstadoService {
      */
     public Estado[] getEstados() {
         return estados;
+    }
+    
+    /**
+     * Atributo estático da classe EstadoService que armazona a referência para 
+     * a única instância desta classe.
+     */
+    private static final EstadoService INSTANCE = new EstadoService();
+
+    /**
+     * Retorna a única instância desta classe (Singleton).
+     * @return a instância da classe EstadoService
+     */
+    public static EstadoService getInstance() {
+        return INSTANCE;
+    }
+
+    public static void main(String[] args) {
+        getInstance();
     }
 }

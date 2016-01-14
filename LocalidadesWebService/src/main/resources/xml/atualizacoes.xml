@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<atualizacoes>
+    <atualizacao>
+        <horario>00:00</horario>
+        <zona>America/Sao_Paulo</zona>
+    </atualizacao>
+    <atualizacao>
+        <horario>06:00</horario>
+        <zona>America/Sao_Paulo</zona>
+    </atualizacao>
+    <atualizacao>
+        <horario>12:00</horario>
+        <zona>America/Sao_Paulo</zona>
+    </atualizacao>
+    <atualizacao>
+        <horario>18:00</horario>
+        <zona>America/Sao_Paulo</zona>
+    </atualizacao>
+    <atualizacao>
+        <horario>21:46:00</horario>
+        <zona>America/Sao_Paulo</zona>
+    </atualizacao>
+    <atualizacao>
+        <horario>21:46:15</horario>
+        <zona>America/Sao_Paulo</zona>
+    </atualizacao>
+    <atualizacao>
+        <horario>21:46:30</horario>
+        <zona>America/Sao_Paulo</zona>
+    </atualizacao>
+</atualizacoes>
