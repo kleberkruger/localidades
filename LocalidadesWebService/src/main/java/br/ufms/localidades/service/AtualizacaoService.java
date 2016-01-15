@@ -16,6 +16,7 @@
  */
 package br.ufms.localidades.service;
 
+import br.ufms.localidades.app.BaseDados;
 import br.ufms.localidades.model.Atualizacao;
 import br.ufms.localidades.util.AgendadorTarefas;
 import com.thoughtworks.xstream.XStream;
@@ -79,7 +80,7 @@ public class AtualizacaoService {
 
         @Override
         public void run() {
-            EstadoService.getInstance().atualizarDados();
+            BaseDados.getInstance().atualizar();
         }
     }
 }

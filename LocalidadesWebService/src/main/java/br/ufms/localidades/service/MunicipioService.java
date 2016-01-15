@@ -16,7 +16,10 @@
  */
 package br.ufms.localidades.service;
 
+import br.ufms.localidades.app.BaseDados;
+import br.ufms.localidades.model.Estado;
 import br.ufms.localidades.model.Municipio;
+import java.util.ArrayList;
 import java.util.List;
 
 /**
@@ -26,7 +29,7 @@ import java.util.List;
 public class MunicipioService {
 
     private MunicipioService() {
-        
+        // Nada a fazer...
     }
 
     /**
@@ -37,7 +40,12 @@ public class MunicipioService {
      * @return uma lista com todos os municípios com este nome
      */
     public List<Municipio> getMunicipios(String nome) {
-        return null;
+        List<Municipio> lista = new ArrayList<>();
+        BaseDados.getInstance().getMunicipios().stream().filter((Municipio m)
+                -> (m.getNome().equalsIgnoreCase(nome))).forEach((m) -> {
+            lista.add(m);
+        });
+        return lista;
     }
 
     /**
@@ -50,6 +58,16 @@ public class MunicipioService {
      * @return o município
      */
     public Municipio getMunicipio(String nome, String uf) {
+        for (Estado e : BaseDados.getInstance().getEstados()) {
+            if (e.getUf().equalsIgnoreCase(uf)) {
+                for (Municipio m : e.getMunicipios()) {
+                    if (m.getNome().equalsIgnoreCase(nome)) {
+                        return m;
+                    }
+                }
+                break;
+            }
+        }
         return null;
     }
 
@@ -59,17 +77,18 @@ public class MunicipioService {
      * @return uma lista com todos os municípios
      */
     public List<Municipio> getMunicipios() {
-        return null;
+        return BaseDados.getInstance().getMunicipios();
     }
-    
+
     /**
-     * Atributo estático da classe MunicipioService que armazona a referência para 
-     * a única instância desta classe.
+     * Atributo estático da classe MunicipioService que armazona a referência
+     * para a única instância desta classe.
      */
     private static final MunicipioService INSTANCE = new MunicipioService();
 
     /**
      * Retorna a única instância desta classe (Singleton).
+     *
      * @return a instância da classe MunicipioService
      */
     public static MunicipioService getInstance() {

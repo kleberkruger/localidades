@@ -22,7 +22,7 @@
         <ul>
             <li><a href="<%=request.getContextPath()%>/rest/municipios">/rest/municipios</a> --> retorna uma lista com todos os municípios do Brasil</li>
             <li><a href="<%=request.getContextPath()%>/rest/municipios/Coxim">/rest/municipios/Coxim</a> --> retorna uma lista com todos os municípios do Brasil com este nome</li>
-            <li><a href="<%=request.getContextPath()%>/rest/municipios/Coxim-MS">/rest/municipios/Coxim-MS</a> --> retorna os dados do município específicado</li>
+            <li><a href="<%=request.getContextPath()%>/rest/municipios/Coxim/MS">/rest/municipios/Coxim/MS</a> --> retorna os dados do município específicado</li>
         </ul>
     </body>
 </html>

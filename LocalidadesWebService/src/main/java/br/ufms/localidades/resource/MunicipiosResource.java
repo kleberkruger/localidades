@@ -41,8 +41,16 @@ public class MunicipiosResource {
     }
 
     @GET
-    @Path("{uf}")
+    @Path("{municipio}")
     public List<Municipio> get(@PathParam("municipio") String municipio) {
         return MunicipioService.getInstance().getMunicipios(municipio);
+    }
+    
+    @GET
+    @Path("/{municipio}/{uf}")
+    public Municipio get(@PathParam("municipio") String municipio, 
+            @PathParam("uf") String uf) {
+        
+        return MunicipioService.getInstance().getMunicipio(municipio, uf);
     }
 }
