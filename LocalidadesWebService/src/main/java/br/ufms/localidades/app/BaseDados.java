@@ -23,6 +23,7 @@ import br.ufms.localidades.service.AtualizacaoService;
 import br.ufms.localidades.util.LeitorXML;
 import com.google.gson.Gson;
 import java.io.BufferedReader;
+import java.io.BufferedWriter;
 import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.io.InputStream;
@@ -31,6 +32,7 @@ import java.net.HttpURLConnection;
 import java.net.MalformedURLException;
 import java.net.URISyntaxException;
 import java.net.URL;
+import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.util.ArrayList;
@@ -174,9 +176,21 @@ public class BaseDados {
      * d\u0027Água das Flores".
      */
     private void corrigirAcentuacao(List<Municipio> lista) {
+        // FIXME: Fazer funcionar este método
         lista.stream().forEach((m) -> {
             m.setNome(m.getNome().replace("\\u0027", "'"));
         });
+    }
+    
+    private void gravarArquivo() throws FileNotFoundException, IOException, URISyntaxException {
+        URL url = LocalidadesApp.class.getResource("/json/estados.json");
+        if (url == null) {
+            throw new FileNotFoundException();
+        }
+        Path p = Paths.get(url.toURI());        
+        try (BufferedWriter writer = Files.newBufferedWriter(p)) {
+            writer.write(new Gson().toJson(estados));
+        }
     }
 
     /**
@@ -189,7 +203,11 @@ public class BaseDados {
             try {
                 carregarDoServidorWeb();
                 setBaseDados(estadosWeb);
-                // Atualizar o arquivo json local
+                try {
+                    gravarArquivo();
+                } catch (FileNotFoundException | URISyntaxException ex) {
+                    System.err.println(ex.getMessage());
+                }
             } catch (IOException ex) {
                 // Agendar para daqui 30 min?
             }

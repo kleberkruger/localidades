@@ -16,7 +16,6 @@
  */
 package br.ufms.localidades.app;
 
-import br.ufms.localidades.service.MunicipioService;
 import java.util.HashMap;
 import java.util.Map;
 import javax.ws.rs.core.Application;
@@ -28,9 +27,9 @@ import javax.ws.rs.core.Application;
 public class LocalidadesApp extends Application {
 
     /**
-     * Construtor de LocalidadesApp. Ao criar este objeto, o servidor inicializa 
-     * a base de dados da aplicação sincronizando-a com o arquivo estados.json 
-     * salvo localmente. Em seguida, faz uma consulta ao web service para obter 
+     * Construtor de LocalidadesApp. Ao criar este objeto, o servidor inicializa
+     * a base de dados da aplicação sincronizando-a com o arquivo estados.json
+     * salvo localmente. Em seguida, faz uma consulta ao web service para obter
      * os dados atualizados.
      */
     public LocalidadesApp() {
@@ -43,9 +42,5 @@ public class LocalidadesApp extends Application {
         // Configura o pacote para fazer scan das classes com anotações REST.
         properties.put("jersey.config.server.provider.packages", "br.ufms.localidades");
         return properties;
-    }
-    
-    public static void main(String[] args) {
-        System.out.println(MunicipioService.getInstance().getMunicipio("Coxim", "MS"));
     }
 }
